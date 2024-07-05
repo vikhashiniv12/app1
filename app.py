@@ -4,11 +4,20 @@ from firebase_admin import credentials, db
 import matplotlib.pyplot as plt
 import io
 import base64
+import requests
+
 
 app = Flask(__name__)
 
 # Replace with the actual path to your service account key JSON file
-service_account_key = "E:/serviceAccountKey.json"
+url = 'https://github.com/vikhashiniv12/app1/blob/main/serviceAccountKey.json'
+response = requests.get(url)
+
+if response.status_code == 200:
+    service_account_key = response.json()  # Assuming JSON format
+    # Now you can use the service_account_key in your application
+else:
+    print(f"Failed to retrieve the file. Status code: {response.status_code}")
 
 # Initialize Firebase with your credentials
 cred = credentials.Certificate(service_account_key)
