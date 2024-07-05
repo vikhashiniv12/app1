@@ -10,14 +10,16 @@ import requests
 app = Flask(__name__)
 
 # Replace with the actual path to your service account key JSON file
-url = 'https://github.com/vikhashiniv12/app1/blob/main/serviceAccountKey.json'
+rl = 'https://github.com/vikhashiniv12/app1/blob/main/serviceAccountKey.json'
 response = requests.get(url)
 
-if response.status_code == 200:
-    service_account_key = response.json()  # Assuming JSON format
-    # Now you can use the service_account_key in your application
-else:
-    print(f"Failed to retrieve the file. Status code: {response.status_code}")
+print(response.text)  # Print the content to inspect it
+
+try:
+    service_account_key = response.json()  # Try to decode JSON
+    # Use service_account_key in your application
+except ValueError as e:
+    print(f"Error decoding JSON: {e}")
 
 # Initialize Firebase with your credentials
 cred = credentials.Certificate(service_account_key)
